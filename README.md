@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Flow Builder
 
-## Getting Started
+A visual flow builder for creating conditional node-based flows — similar to how chatbot or automation tools like n8n work. Built as a frontend assignment.
 
-First, run the development server:
+**Live Demo → [flow-builder-bolna.vercel.app/](https://flow-builder-bolna.vercel.app/)**
 
+---
+
+## What it does
+
+- Add, drag, and delete nodes on an interactive canvas
+- Connect nodes by drawing edges between them
+- Each edge has a condition label (e.g. "user says yes")
+- Mark one node as the start node
+- Edit node name, description, and edges from a sidebar
+- Live JSON export that updates as you build
+- Import JSON to reconstruct a flow
+- Copy or download the JSON
+- Validation with inline errors and warnings
+- Light and dark mode
+
+## Stack
+
+- **Next.js 16** — framework
+- **React Flow (@xyflow/react)** — canvas, nodes, edges
+- **shadcn/ui** — all UI components
+- **Zustand** — state management
+- **Tailwind CSS v4** — styling
+
+## Run locally
 ```bash
+git clone https://github.com/yourusername/flow-builder.git
+cd flow-builder
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## How to use
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Click **Add Node** to create a node
+2. Click a node to open the edit panel
+3. Set a name, description, and mark one as **Start**
+4. Drag from the bottom dot of a node to the top dot of another to connect
+5. Set a condition on each edge
+6. Watch the JSON panel update live on the right
+7. Copy or download the JSON when ready
 
-## Learn More
+## Design choices
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Zustand for state — simple and no boilerplate compared to Redux
+- React Flow handles all canvas complexity out of the box
+- shadcn/ui gives consistent, accessible components without custom CSS
+- Warnings shown inline rather than blocking — better UX for iterative building
