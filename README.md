@@ -2,7 +2,7 @@
 
 A visual flow builder for creating conditional node-based flows — similar to how chatbot or automation tools like n8n work. Built as a frontend assignment.
 
-**Live Demo → [flow-builder-bolna.vercel.app/](https://flow-builder-bolna.vercel.app/)**
+**Live Demo → [flow-builder-bolna.vercel.app](https://flow-builder-bolna.vercel.app/)**
 
 ---
 
