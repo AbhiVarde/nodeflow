@@ -15,7 +15,7 @@ import useFlowStore from "@/store/flowStore";
 
 export default function Home() {
   const setSelectedNode = useFlowStore((s) => s.setSelectedNode);
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(true);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
