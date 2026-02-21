@@ -170,7 +170,10 @@ export default function JsonPanel() {
       )}
 
       {/* JSON Viewer */}
-      <div className="flex-1 overflow-auto">
+      <div
+        className="flex-1 overflow-auto [&::-webkit-scrollbar]:hidden"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
         <pre
           className="p-4 text-xs font-mono leading-relaxed text-zinc-300 min-w-max selection:bg-zinc-700/60"
           dangerouslySetInnerHTML={{ __html: highlight(jsonString) }}
