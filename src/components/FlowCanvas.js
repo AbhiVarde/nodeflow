@@ -27,12 +27,13 @@ export default function FlowCanvas({ onNodeClick }) {
 
   const warnings = getValidationWarnings();
 
+  // Delete selected node with keyboard
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const onKey = (e) => {
       if (e.key === "Delete" && selectedNode) deleteNode(selectedNode.id);
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [selectedNode, deleteNode]);
 
   const handleNodeClick = useCallback(
@@ -65,14 +66,14 @@ export default function FlowCanvas({ onNodeClick }) {
           maskColor="rgba(0,0,0,0.04)"
         />
 
-        {/* Toolbar */}
+        {/* Canvas toolbar */}
         <Panel position="top-left" className="flex items-center gap-2 m-3">
           <Button
             onClick={addNode}
             size="sm"
             className="bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 text-white h-8 px-3 text-xs shadow"
           >
-            <Plus className="w-3.5 h-3.5 " />
+            <Plus className="w-3.5 h-3.5" />
             Add Node
           </Button>
 
@@ -83,12 +84,11 @@ export default function FlowCanvas({ onNodeClick }) {
               variant="outline"
               className="border-zinc-300 text-zinc-600 hover:text-red-500 hover:border-red-300 dark:border-zinc-700 dark:text-zinc-400 h-8 px-3 text-xs shadow"
             >
-              <Trash2 className="w-3.5 h-3.5 " />
+              <Trash2 className="w-3.5 h-3.5" />
               Delete
             </Button>
           )}
 
-          {/* Inline warning count — subtle */}
           {warnings.length > 0 && (
             <span className="text-xs text-amber-500 font-medium ml-1">
               ⚠ {warnings.length} warning{warnings.length > 1 ? "s" : ""}

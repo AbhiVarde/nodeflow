@@ -35,6 +35,7 @@ export default function NodeSidebar() {
   const [newTarget, setNewTarget] = useState("");
   const [newCondition, setNewCondition] = useState("");
 
+  // Sync local state when selected node changes
   useEffect(() => {
     if (selectedNode) {
       setLabel(selectedNode.data.label || "");
@@ -74,7 +75,7 @@ export default function NodeSidebar() {
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
-          {/* Name */}
+          {/* Node name */}
           <div className="space-y-1.5">
             <Label className="text-xs text-zinc-500 dark:text-zinc-400">
               Node Name
@@ -91,7 +92,7 @@ export default function NodeSidebar() {
             )}
           </div>
 
-          {/* Description */}
+          {/* Node description */}
           <div className="space-y-1.5">
             <Label className="text-xs text-zinc-500 dark:text-zinc-400">
               Description
@@ -109,7 +110,7 @@ export default function NodeSidebar() {
             )}
           </div>
 
-          {/* Start node */}
+          {/* Toggle start node */}
           <div className="flex items-center justify-between py-1">
             <Label className="text-xs text-zinc-500 dark:text-zinc-400">
               Start Node
@@ -132,7 +133,7 @@ export default function NodeSidebar() {
 
           <Separator className="dark:bg-zinc-800" />
 
-          {/* Outgoing edges */}
+          {/* Outgoing edge list */}
           <div className="space-y-2">
             <Label className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
               Outgoing Edges ({outgoingEdges.length})
@@ -170,7 +171,7 @@ export default function NodeSidebar() {
             ))}
           </div>
 
-          {/* Add edge */}
+          {/* Add new edge */}
           <div className="border border-dashed border-zinc-200 dark:border-zinc-700 rounded-lg p-3 space-y-2">
             <Label className="text-xs text-zinc-500 dark:text-zinc-400">
               Add Edge
@@ -199,23 +200,23 @@ export default function NodeSidebar() {
               disabled={!newTarget}
               className="w-full h-7 text-xs bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200"
             >
-              <Plus className="w-3 h-3 " /> Add Edge
+              <Plus className="w-3 h-3" /> Add Edge
             </Button>
           </div>
         </div>
 
-        {/* Delete */}
+        {/* Delete node */}
         <div className="px-5 py-4 border-t border-zinc-100 dark:border-zinc-800">
           <Button
             variant="ghost"
             size="sm"
-            className="w-full text-red-500 hover:bg-red-50 dark:hover:bg-red-950 text-xs h-8"
+            className="cursor-pointer w-full text-red-500 hover:bg-red-50 dark:hover:bg-red-950 text-xs h-8"
             onClick={() => {
               deleteNode(selectedNode.id);
               clearSelectedNode();
             }}
           >
-            <Trash2 className="w-3.5 h-3.5 " />
+            <Trash2 className="w-3.5 h-3.5" />
             Delete Node
           </Button>
         </div>

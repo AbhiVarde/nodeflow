@@ -2,6 +2,7 @@
 
 import { Handle, Position } from "@xyflow/react";
 import useFlowStore from "@/store/flowStore";
+import { Badge } from "@/components/ui/badge";
 
 export default function CustomNode({ data, id, selected }) {
   const setSelectedNode = useFlowStore((s) => s.setSelectedNode);
@@ -10,43 +11,51 @@ export default function CustomNode({ data, id, selected }) {
     <div
       onClick={() => setSelectedNode(id)}
       className={`
-        w-[160px] rounded-lg border bg-white dark:bg-zinc-900 cursor-pointer
-        transition-all duration-150 shadow-sm
+        w-36 rounded-lg border bg-card text-foreground cursor-pointer
+        transition-all duration-150 shadow-xs
         ${
           selected
-            ? "border-black dark:border-white shadow-md"
-            : "border-zinc-200 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-500"
+            ? "border-foreground/40 shadow-sm"
+            : "border-border hover:border-foreground/20"
         }
       `}
     >
+      {/* Target Handle */}
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-2 !h-2 !bg-zinc-400 !border-2 !border-white dark:!border-zinc-900"
+        className="w-1.5! h-1.5! bg-muted-foreground! border border-card!"
       />
 
-      <div className="px-2.5 py-2 space-y-0.5">
+      {/* Content */}
+      <div className="px-2 py-1.5 leading-tight space-y-0.5">
         {data.isStart && (
-          <span className="inline-block text-[9px] font-bold uppercase tracking-widest bg-black dark:bg-white text-white dark:text-black px-1.5 py-0.5 rounded-full mb-1">
+          <Badge
+            variant="secondary"
+            className="h-3 px-1 text-[8px] font-medium rounded-sm"
+          >
             Start
-          </span>
+          </Badge>
         )}
-        <p className="font-medium text-xs text-zinc-900 dark:text-zinc-100 truncate">
-          {data.label}
-        </p>
-        {data.description ? (
-          <p className="text-[10px] text-zinc-400 dark:text-zinc-500 truncate">
-            {data.description}
-          </p>
-        ) : (
-          <p className="text-[10px] text-red-400">⚠ No description</p>
-        )}
+
+        <div className="py-0.5 space-y-0.5 leading-tight">
+          <p className="text-[11px] font-medium truncate">{data.label}</p>
+
+          {data.description ? (
+            <p className="text-[10px] text-muted-foreground truncate">
+              {data.description}
+            </p>
+          ) : (
+            <p className="text-[10px] text-destructive">No description</p>
+          )}
+        </div>
       </div>
 
+      {/* Source Handle */}
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!w-2 !h-2 !bg-zinc-900 dark:!bg-zinc-100 !border-2 !border-white dark:!border-zinc-900"
+        className="w-1.5! h-1.5! bg-foreground! border border-card!"
       />
     </div>
   );
