@@ -1,7 +1,6 @@
 # NodeFlow
 
-A visual flow builder for creating conditional node-based flows — similar to how chatbot or automation tools like n8n work. Built as a frontend assignment.
-
+NodeFlow is a visual builder for designing conditional node based workflows with an intuitive canvas, inspired by modern automation tools like n8n.
 **Live Demo → https://flow-builder-bolna.vercel.app/**
 
 ---
