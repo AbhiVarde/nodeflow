@@ -156,3 +156,13 @@
 .dark .react-flow__edge-text {
   fill: #d4d4d8;
 }
+
+/* Hide scrollbars globally — scrolling still works */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
