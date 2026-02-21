@@ -1,8 +1,8 @@
-# Flow Builder
+# NodeFlow
 
 A visual flow builder for creating conditional node-based flows — similar to how chatbot or automation tools like n8n work. Built as a frontend assignment.
 
-**Live Demo → [flow-builder-bolna.vercel.app](https://flow-builder-bolna.vercel.app/)**
+**Live Demo → https://flow-builder-bolna.vercel.app/**
 
 ---
 
@@ -19,18 +19,21 @@ A visual flow builder for creating conditional node-based flows — similar to h
 - Validation with inline errors and warnings
 - Light and dark mode
 
-## Stack
+## Technology Stack
 
-- **Next.js 16** — framework
-- **React Flow (@xyflow/react)** — canvas, nodes, edges
-- **shadcn/ui** — all UI components
-- **Zustand** — state management
-- **Tailwind CSS v4** — styling
+| Component        | Technology                 |
+| ---------------- | -------------------------- |
+| Framework        | Next.js 16                 |
+| Canvas & Nodes   | React Flow (@xyflow/react) |
+| UI Components    | shadcn/ui                  |
+| State Management | Zustand                    |
+| Styling          | Tailwind CSS v4            |
 
 ## Run locally
+
 ```bash
-git clone https://github.com/yourusername/flow-builder.git
-cd flow-builder
+git clone https://github.com/AbhiVarde/nodeflow.git
+cd nodeflow
 npm install
 npm run dev
 ```
@@ -49,7 +52,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## Design choices
 
-- Zustand for state — simple and no boilerplate compared to Redux
-- React Flow handles all canvas complexity out of the box
-- shadcn/ui gives consistent, accessible components without custom CSS
-- Warnings shown inline rather than blocking — better UX for iterative building
+- Zustand for state — simple and minimal compared to Redux
+- React Flow handles canvas complexity out of the box
+- shadcn/ui provides consistent, accessible UI
+- Inline warnings instead of blocking errors for better UX
