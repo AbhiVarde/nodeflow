@@ -37,6 +37,14 @@ export const metadata = {
     url: "https://nodeflow.abhivarde.in",
     siteName: "NodeFlow",
     type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "NodeFlow - Visual workflow builder",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -44,6 +52,7 @@ export const metadata = {
     description:
       "Visual builder for conditional node-based workflows. Build, share, and export flows in the browser.",
     creator: "@abhivarde",
+    images: ["/og.png"],
   },
   robots: {
     index: true,
