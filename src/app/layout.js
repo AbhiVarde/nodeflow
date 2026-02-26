@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Analytics } from "@vercel/analytics/next"; // ✅ add this
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,7 +48,7 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "https://nodeflow.abhivarde.in/og.png",
+        url: "/og.png",
         width: 1200,
         height: 630,
         alt: "NodeFlow - Visual workflow builder",
@@ -62,7 +62,7 @@ export const metadata = {
     description:
       "Visual builder for conditional node-based workflows. Build, share, and export flows in the browser.",
     creator: "@abhivarde",
-    images: ["https://nodeflow.abhivarde.in/og.png"],
+    images: ["/og.png"],
   },
 
   robots: {
@@ -86,6 +86,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <link rel="canonical" href="https://nodeflow.abhivarde.in" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
