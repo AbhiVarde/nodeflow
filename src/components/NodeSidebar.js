@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import useFlowStore from "@/store/flowStore";
+import useFlowStore, { NODE_COLORS } from "@/store/flowStore";
 import {
   Sheet,
   SheetContent,
@@ -13,6 +13,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Trash2, Plus } from "lucide-react";
 
 export default function NodeSidebar() {
@@ -35,7 +42,7 @@ export default function NodeSidebar() {
   const [newTarget, setNewTarget] = useState("");
   const [newCondition, setNewCondition] = useState("");
 
-  // Sync local state when selected node changes
+  // Sync local fields whenever the selected node changes
   useEffect(() => {
     if (selectedNode) {
       setLabel(selectedNode.data.label || "");
@@ -110,7 +117,35 @@ export default function NodeSidebar() {
             )}
           </div>
 
-          {/* Toggle start node */}
+          {/* Color picker — circle swatches, selected swatch gets a ring */}
+          <div className="space-y-2">
+            <Label className="text-xs text-zinc-500 dark:text-zinc-400">
+              Node Color
+            </Label>
+            <div className="flex flex-wrap gap-2">
+              {NODE_COLORS.map((c) => (
+                <button
+                  key={c.label}
+                  title={c.label}
+                  onClick={() =>
+                    updateNodeData(selectedNode.id, { color: c.value })
+                  }
+                  className={`
+                    w-5 h-5 rounded-full border-2 transition-all duration-100
+                    ${
+                      selectedNode.data.color === c.value
+                        ? "border-zinc-900 dark:border-zinc-100 scale-110"
+                        : "border-transparent hover:scale-105"
+                    }
+                    ${!c.value ? "bg-zinc-200 dark:bg-zinc-700" : ""}
+                  `}
+                  style={c.value ? { backgroundColor: c.value } : {}}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Start node toggle */}
           <div className="flex items-center justify-between py-1">
             <Label className="text-xs text-zinc-500 dark:text-zinc-400">
               Start Node
@@ -133,7 +168,7 @@ export default function NodeSidebar() {
 
           <Separator className="dark:bg-zinc-800" />
 
-          {/* Outgoing edge list */}
+          {/* Outgoing edges list */}
           <div className="space-y-2">
             <Label className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
               Outgoing Edges ({outgoingEdges.length})
@@ -171,29 +206,33 @@ export default function NodeSidebar() {
             ))}
           </div>
 
-          {/* Add new edge */}
+          {/* Add edge form */}
           <div className="border border-dashed border-zinc-200 dark:border-zinc-700 rounded-lg p-3 space-y-2">
             <Label className="text-xs text-zinc-500 dark:text-zinc-400">
               Add Edge
             </Label>
-            <select
-              value={newTarget}
-              onChange={(e) => setNewTarget(e.target.value)}
-              className="w-full text-xs border border-zinc-200 dark:border-zinc-700 rounded-md px-3 py-1.5 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 focus:outline-none focus:ring-1 focus:ring-zinc-400"
-            >
-              <option value="">Select target node...</option>
-              {availableTargets.map((n) => (
-                <option key={n.id} value={n.id}>
-                  {n.data.label}
-                </option>
-              ))}
-            </select>
+
+            {/* shadcn Select instead of a raw <select> */}
+            <Select value={newTarget} onValueChange={setNewTarget}>
+              <SelectTrigger className="h-8 text-xs w-full">
+                <SelectValue placeholder="Select target node…" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                {availableTargets.map((n) => (
+                  <SelectItem key={n.id} value={n.id} className="text-xs">
+                    {n.data.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
             <Input
               value={newCondition}
               onChange={(e) => setNewCondition(e.target.value)}
               placeholder="Condition text"
               className="h-7 text-xs"
             />
+
             <Button
               size="sm"
               onClick={handleAddEdge}
@@ -205,7 +244,7 @@ export default function NodeSidebar() {
           </div>
         </div>
 
-        {/* Delete node */}
+        {/* Delete node — pinned to the bottom of the sheet */}
         <div className="px-5 py-4 border-t border-zinc-100 dark:border-zinc-800">
           <Button
             variant="ghost"

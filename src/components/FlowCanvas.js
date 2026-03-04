@@ -1,14 +1,16 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ReactFlow, Background, Controls, MiniMap, Panel } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import useFlowStore from "@/store/flowStore";
 import CustomNode from "@/components/CustomNode";
+import TemplatesModal from "./dialogs/TemplatesModal";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, LayoutTemplate } from "lucide-react";
 
+// Register custom node type so ReactFlow knows how to render it
 const nodeTypes = { customNode: CustomNode };
 
 export default function FlowCanvas({ onNodeClick }) {
@@ -25,9 +27,10 @@ export default function FlowCanvas({ onNodeClick }) {
     getValidationWarnings,
   } = useFlowStore();
 
+  const [showTemplates, setShowTemplates] = useState(false);
   const warnings = getValidationWarnings();
 
-  // Delete selected node with keyboard
+  // Delete the selected node when the Delete key is pressed
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Delete" && selectedNode) deleteNode(selectedNode.id);
@@ -37,7 +40,7 @@ export default function FlowCanvas({ onNodeClick }) {
   }, [selectedNode, deleteNode]);
 
   const handleNodeClick = useCallback(
-    (_, node) => onNodeClick(node.id),
+    (_e, node) => onNodeClick(node.id),
     [onNodeClick],
   );
   const handlePaneClick = useCallback(
@@ -57,16 +60,21 @@ export default function FlowCanvas({ onNodeClick }) {
         onPaneClick={handlePaneClick}
         nodeTypes={nodeTypes}
         fitView
-        deleteKeyCode={null}
+        fitViewOptions={{ padding: 1, maxZoom: 1.5 }}
+        deleteKeyCode={null} // handled manually above so sidebar Delete key doesn't fire
       >
         <Background color="#e4e4e7" gap={24} size={1} />
         <Controls />
+
+        {/* MiniMap reflects each node's custom color */}
         <MiniMap
-          nodeColor={(n) => (n.data?.isStart ? "#000" : "#a1a1aa")}
+          nodeColor={(n) =>
+            n.data?.color || (n.data?.isStart ? "#000" : "#a1a1aa")
+          }
           maskColor="rgba(0,0,0,0.04)"
         />
 
-        {/* Canvas toolbar */}
+        {/* Top-left toolbar: Add Node, Templates, Delete (when a node is selected) */}
         <Panel position="top-left" className="flex items-center gap-2 m-3">
           <Button
             onClick={addNode}
@@ -75,6 +83,16 @@ export default function FlowCanvas({ onNodeClick }) {
           >
             <Plus className="w-3.5 h-3.5" />
             Add Node
+          </Button>
+
+          <Button
+            onClick={() => setShowTemplates(true)}
+            size="sm"
+            variant="outline"
+            className="border-zinc-300 text-zinc-600 dark:border-zinc-700 dark:text-zinc-400 h-8 px-3 text-xs shadow hover:border-zinc-500"
+          >
+            <LayoutTemplate className="w-3.5 h-3.5" />
+            Templates
           </Button>
 
           {selectedNode && (
@@ -96,6 +114,11 @@ export default function FlowCanvas({ onNodeClick }) {
           )}
         </Panel>
       </ReactFlow>
+
+      <TemplatesModal
+        open={showTemplates}
+        onClose={() => setShowTemplates(false)}
+      />
     </div>
   );
 }
